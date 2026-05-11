@@ -42,7 +42,7 @@
             height: 100vh;
         }
 
-        /* Cabecera con Paginador y Tema */
+        /* Cabecera con Paginador, Reset y Tema */
         .header {
             padding: 10px;
             display: flex;
@@ -79,6 +79,24 @@
             background: var(--bg-color);
             color: var(--text-color);
             font-weight: bold;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .reset-btn {
+            background: var(--btn-bg);
+            color: var(--btn-text);
+            border: none;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+            font-weight: bold;
+            white-space: nowrap;
         }
 
         .theme-toggle {
@@ -151,7 +169,7 @@
             color: var(--text-color);
         }
 
-        /* Posicionamiento ajustado: Más centradas, con el espacio justo */
+        /* Posicionamiento ajustado */
         .card.prev { top: 10%; transform: translateY(0) scale(0.75); opacity: 0.25; z-index: 1; }
         .card.current { top: 50%; transform: translateY(-50%) scale(1); opacity: 1; z-index: 2; }
         .card.next { top: 90%; transform: translateY(-100%) scale(0.75); opacity: 0.25; z-index: 1; }
@@ -180,7 +198,11 @@
             <button onclick="move(1)">›</button>
             <button onclick="move(10)">+10</button>
         </div>
-        <button id="theme-btn" class="theme-toggle" onclick="toggleTheme()">🌙 Oscuro</button>
+        
+        <div class="header-right">
+            <button class="reset-btn" onclick="jumpTo(1)">🔄 Reset</button>
+            <button id="theme-btn" class="theme-toggle" onclick="toggleTheme()">🌙 Oscuro</button>
+        </div>
     </header>
 
     <div class="touch-zone touch-left" onclick="move(-1)"></div>
