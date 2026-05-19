@@ -45,11 +45,12 @@
             height: 100vh;
         }
 
-        /* Nueva estructura de la cabecera en 3 columnas */
+        /* Estructura de la cabecera rediseñada */
         .header {
-            padding: 10px 8px;
+            padding: 10px 12px;
             display: flex;
             justify-content: space-between;
+            /* Empuja el paginador a la derecha y el resto a la izquierda */
             align-items: center;
             background-color: var(--card-bg);
             box-shadow: 0 2px 5px var(--card-shadow);
@@ -57,47 +58,51 @@
             width: 100%;
         }
 
-        /* Los bloques laterales ocupan el mismo espacio (flex: 1) para que el centro sea exacto */
         .header-left {
             display: flex;
-            gap: 6px;
+            gap: 15px;
+            /* Separación notable entre el Reset y el grupo Tema/Salto */
             align-items: center;
-            flex: 1;
-            justify-content: flex-start;
         }
 
-        .header-center {
+        .config-group {
             display: flex;
+            gap: 6px;
+            /* Botones de Tema y Salto juntitos */
             align-items: center;
-            gap: 4px;
-            justify-content: center;
         }
 
         .header-right {
             display: flex;
             align-items: center;
-            flex: 1;
-            justify-content: flex-end;
         }
 
-        /* Estilos generales de botones adaptados para móviles */
+        .paginator-top {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Estilos generales de botones */
         .header button {
             border: none;
-            padding: 8px 10px;
+            padding: 8px 12px;
             border-radius: 8px;
             font-weight: bold;
-            font-size: 13px;
+            font-size: 14px;
             cursor: pointer;
             white-space: nowrap;
         }
 
-        .header-center button {
+        /* Botones de salto más anchos */
+        .wide-btn {
             background: var(--btn-bg);
             color: var(--btn-text);
-            min-width: 40px;
+            min-width: 55px;
+            padding: 8px 16px !important;
         }
 
-        .header-center input {
+        .paginator-top input {
             width: 50px;
             padding: 7px 2px;
             text-align: center;
@@ -123,9 +128,9 @@
 
         .reset-btn {
             background: #ff4d4d !important;
-            /* Rojo suave para indicar peligro/reinicio */
             color: white !important;
             border-radius: 20px !important;
+            padding: 8px 14px !important;
         }
 
         /* Contenedor de Tarjetas */
@@ -236,18 +241,19 @@
 
     <header class="header">
         <div class="header-left">
-            <button id="theme-btn" class="theme-toggle" onclick="toggleTheme()">🌙</button>
-            <button id="step-btn" class="config-btn" onclick="toggleStepSize()">🔢 10</button>
-        </div>
-
-        <div class="header-center">
-            <button id="btn-leap-back" onclick="move(-currentStep)">-10</button>
-            <input type="number" id="jump-input" min="1" max="253" onchange="jumpTo(this.value)">
-            <button id="btn-leap-forward" onclick="move(currentStep)">+10</button>
+            <button class="reset-btn" onclick="confirmReset()">🔄</button>
+            <div class="config-group">
+                <button id="theme-btn" class="theme-toggle" onclick="toggleTheme()">🌙</button>
+                <button id="step-btn" class="config-btn" onclick="toggleStepSize()">🔢 10</button>
+            </div>
         </div>
 
         <div class="header-right">
-            <button class="reset-btn" onclick="confirmReset()">🔄</button>
+            <div class="paginator-top">
+                <button id="btn-leap-back" class="wide-btn" onclick="move(-currentStep)">-10</button>
+                <input type="number" id="jump-input" min="1" max="253" onchange="jumpTo(this.value)">
+                <button id="btn-leap-forward" class="wide-btn" onclick="move(currentStep)">+10</button>
+            </div>
         </div>
     </header>
 
@@ -341,7 +347,6 @@
             updateUI();
         }
 
-        // Nueva función con confirmación para el Reset
         function confirmReset() {
             if (confirm("¿Estás seguro de que quieres volver a la primera tarjeta?")) {
                 jumpTo(1);
@@ -365,7 +370,6 @@
             body.classList.toggle('dark-mode');
             const isDark = body.classList.contains('dark-mode');
 
-            // Usamos iconos más limpios para ahorrar espacio en móviles
             document.getElementById('theme-btn').innerText = isDark ? '☀️' : '🌙';
             document.getElementById('theme-color-meta').setAttribute('content', isDark ? '#121212' : '#f0f0f0');
             localStorage.setItem('pi_theme', isDark ? 'dark' : 'light');
