@@ -16,6 +16,7 @@
             --accent: #007bff;
             --btn-bg: #e0e0e0;
             --btn-text: #333;
+            --pi-color: #333333;
         }
 
         body.dark-mode {
@@ -26,6 +27,7 @@
             --accent: #4da3ff;
             --btn-bg: #333333;
             --btn-text: #e0e0e0;
+            --pi-color: #ffe082;
         }
 
         * {
@@ -135,9 +137,9 @@
             position: absolute;
             width: 85%;
             max-width: 350px;
-            height: 240px;
+            height: 200px;
             background-color: var(--card-bg);
-            border-radius: 20px;
+            border-radius: 15px;
             padding: 15px;
             text-align: center;
             box-shadow: 0 8px 20px var(--card-shadow);
@@ -162,7 +164,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 800;
+            font-weight: 700;
             color: var(--accent);
             line-height: 1.1;
             margin: 0;
@@ -170,18 +172,18 @@
         }
 
         .card .pi-digits {
-            font-size: 3rem;
+            font-size: 2.4rem;
             font-family: "SF Mono", "Roboto Mono", Consolas, Monaco, monospace;
             font-weight: bold;
-            letter-spacing: 4px;
+            letter-spacing: 2.25px;
             margin: 0;
-            color: var(--text-color);
+            color: var(--pi-color);
         }
 
         .card.prev {
-            top: 10%;
+            top: 12.5%;
             transform: translateY(0) scale(0.75);
-            opacity: 0.25;
+            opacity: 0.20;
             z-index: 1;
         }
 
@@ -193,9 +195,9 @@
         }
 
         .card.next {
-            top: 90%;
+            top: 87.5%;
             transform: translateY(-100%) scale(0.75);
-            opacity: 0.25;
+            opacity: 0.20;
             z-index: 1;
         }
 
@@ -355,7 +357,6 @@
             const isDark = body.classList.contains('dark-mode');
 
             document.getElementById('theme-btn').innerText = isDark ? '☀️' : '🌙';
-            // Ahora la barra de notificaciones adopta el color exacto de la cabecera
             document.getElementById('theme-color-meta').setAttribute('content', isDark ? '#1e1e1e' : '#ffffff');
             localStorage.setItem('pi_theme', isDark ? 'dark' : 'light');
         }
