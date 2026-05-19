@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Repaso Pi Países</title>
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#ffffff" id="theme-color-meta">
@@ -19,7 +19,7 @@
             --pi-color: #333333;
         }
 
-        body.dark-mode {
+        html.dark-mode {
             --bg-color: #121212;
             --text-color: #e0e0e0;
             --card-bg: #1e1e1e;
@@ -32,6 +32,11 @@
 
         * {
             box-sizing: border-box;
+        }
+
+        html {
+            background-color: var(--bg-color);
+            transition: background-color 0.3s;
         }
 
         body {
@@ -48,7 +53,7 @@
         }
 
         .header {
-            padding: 10px 12px;
+            padding: max(10px, env(safe-area-inset-top)) 12px 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -352,9 +357,9 @@
         }
 
         function toggleTheme() {
-            const body = document.body;
-            body.classList.toggle('dark-mode');
-            const isDark = body.classList.contains('dark-mode');
+            const htmlElement = document.documentElement;
+            htmlElement.classList.toggle('dark-mode');
+            const isDark = htmlElement.classList.contains('dark-mode');
 
             document.getElementById('theme-btn').innerText = isDark ? '☀️' : '🌙';
             document.getElementById('theme-color-meta').setAttribute('content', isDark ? '#1e1e1e' : '#ffffff');
@@ -367,7 +372,7 @@
             const isDark = savedTheme === 'dark' || (!savedTheme && systemPrefersDark);
 
             if (isDark) {
-                document.body.classList.add('dark-mode');
+                document.documentElement.classList.add('dark-mode');
                 document.getElementById('theme-color-meta').setAttribute('content', '#1e1e1e');
             } else {
                 document.getElementById('theme-color-meta').setAttribute('content', '#ffffff');
