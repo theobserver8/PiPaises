@@ -50,9 +50,3 @@ self.addEventListener('fetch', event => {
       })
   );
 });
-
-self.addEventListener('message', event => {
-  if (event.data === 'GET_VERSION') {
-    event.source.postMessage(CACHE_NAME);
-  }
-});
