@@ -1,6 +1,6 @@
 // IMPORTANTE: Cada vez que hagas un cambio en tu web, 
 // cambia este nombre (ej: pipaises-v3, pipaises-v4...)
-const CACHE_NAME = 'pipaises-v3';
+const CACHE_NAME = 'pipaises-v2';
 const urlsToCache = [
   './',
   './index.html',
