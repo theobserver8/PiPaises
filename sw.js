@@ -1,6 +1,6 @@
 // IMPORTANTE: Cada vez que hagas un cambio en tu web, 
 // cambia este nombre (ej: pipaises-v3, pipaises-v4...)
-const CACHE_NAME = 'pipaises-v10';
+const CACHE_NAME = 'pipaises-v11';
 const urlsToCache = [
   './',
   './index.html',
@@ -49,4 +49,10 @@ self.addEventListener('fetch', event => {
         return response || fetch(event.request);
       })
   );
+});
+
+self.addEventListener('message', event => {
+  if (event.data === 'GET_VERSION') {
+    event.source.postMessage(CACHE_NAME);
+  }
 });
