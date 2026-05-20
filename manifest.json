@@ -3,8 +3,8 @@
   "short_name": "PiPaíses",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#f4f4f9",
-  "theme_color": "#007bff",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
   "orientation": "portrait",
   "icons": [
     {
