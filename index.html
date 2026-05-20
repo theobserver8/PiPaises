@@ -7,6 +7,17 @@
     <title>Repaso Pi Países</title>
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#ffffff" id="theme-color-meta">
+    <script>
+        (function() {
+            const saved = localStorage.getItem('pi_theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const isDark = saved === 'dark' || (!saved && prefersDark);
+            if (isDark) {
+                document.querySelector('meta[name="theme-color"]').setAttribute('content', '#1e1e1e');
+                document.documentElement.style.backgroundColor = '#1e1e1e';
+            }
+        })();
+    </script>
     <style>
         :root {
             --bg-color: #f4f4f9;
@@ -33,8 +44,13 @@
         }
 
         html {
-            background-color: var(--card-bg);
+            background-color: #ffffff;
             height: 100%;
+        }
+
+        body.dark-mode ~ html,
+        html:has(body.dark-mode) {
+            background-color: #1e1e1e;
         }
 
         body {
