@@ -121,7 +121,7 @@
         }
 
         .theme-toggle {
-            background: var(--accent) !important;
+            background: var(--btn-bg) !important;
             color: white !important;
             border-radius: 20px !important;
         }
@@ -457,10 +457,9 @@
                 navigator.serviceWorker.register('./sw.js')
                     .then(reg => {
                         navigator.serviceWorker.addEventListener('message', e => {
-                            const version = e.data.split('-').pop(); // extrae "v10"
+                            const version = e.data.split('-').pop();
                             document.getElementById('version-label').textContent = version;
                         });
-                        // Pide la versión cuando el SW esté listo
                         navigator.serviceWorker.ready.then(sw => {
                             sw.active.postMessage('GET_VERSION');
                         });
