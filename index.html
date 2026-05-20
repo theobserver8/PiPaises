@@ -3,11 +3,10 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Repaso Pi Países</title>
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#f4f4f9" id="theme-color-meta">
-
+    <meta name="theme-color" content="#f0f0f0" id="theme-color-meta">
     <style>
         :root {
             --bg-color: #f4f4f9;
@@ -17,10 +16,9 @@
             --accent: #007bff;
             --btn-bg: #e0e0e0;
             --btn-text: #333;
-            --pi-color: #333333;
         }
 
-        html.dark-mode {
+        body.dark-mode {
             --bg-color: #121212;
             --text-color: #e0e0e0;
             --card-bg: #1e1e1e;
@@ -28,37 +26,27 @@
             --accent: #4da3ff;
             --btn-bg: #333333;
             --btn-text: #e0e0e0;
-            --pi-color: #ffe082;
         }
 
         * {
             box-sizing: border-box;
         }
 
-        html {
-            background-color: var(--card-bg);
-            transition: background-color 0.3s;
-            overscroll-behavior: none;
-            height: 100%;
-        }
-
         body {
             margin: 0;
             padding: 0;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
             color: var(--text-color);
             transition: background-color 0.3s, color 0.3s;
             overflow: hidden;
-            overscroll-behavior: none;
             display: flex;
             flex-direction: column;
-            height: 100%;
-            min-height: 100dvh;
+            height: 100vh;
         }
 
         .header {
             padding: 10px 12px;
-            padding-top: calc(10px + env(safe-area-inset-top));
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -147,9 +135,9 @@
             position: absolute;
             width: 85%;
             max-width: 350px;
-            height: 200px;
+            height: 240px;
             background-color: var(--card-bg);
-            border-radius: 15px;
+            border-radius: 20px;
             padding: 15px;
             text-align: center;
             box-shadow: 0 8px 20px var(--card-shadow);
@@ -174,7 +162,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 700;
+            font-weight: 800;
             color: var(--accent);
             line-height: 1.1;
             margin: 0;
@@ -182,18 +170,18 @@
         }
 
         .card .pi-digits {
-            font-size: 2.4rem;
+            font-size: 3rem;
             font-family: "SF Mono", "Roboto Mono", Consolas, Monaco, monospace;
             font-weight: bold;
-            letter-spacing: 2.25px;
+            letter-spacing: 4px;
             margin: 0;
-            color: var(--pi-color);
+            color: var(--text-color);
         }
 
         .card.prev {
-            top: 12.5%;
+            top: 10%;
             transform: translateY(0) scale(0.75);
-            opacity: 0.20;
+            opacity: 0.25;
             z-index: 1;
         }
 
@@ -205,9 +193,9 @@
         }
 
         .card.next {
-            top: 87.5%;
+            top: 90%;
             transform: translateY(-100%) scale(0.75);
-            opacity: 0.20;
+            opacity: 0.25;
             z-index: 1;
         }
 
@@ -230,16 +218,6 @@
 
         .touch-right {
             right: 0;
-        }
-
-        #version-label {
-            position: fixed;
-            bottom: calc(10px + env(safe-area-inset-bottom));
-            right: 12px;
-            font-size: 11px;
-            color: #888;
-            z-index: 100;
-            pointer-events: none;
         }
     </style>
 </head>
@@ -288,58 +266,7 @@
     </main>
 
     <script>
-        const rawData =
-            "14159,1,ESLOVENIA|26535,2,CROACIA|89793,3,BOSNIA Y HERZEGOVINA|23846,4,MONTENEGRO|26433,5,ALBANIA|" +
-            "83279,6,MACEDONIA DEL NORTE|50288,7,SERBIA|41971,8,BULGARIA|69399,9,GRECIA|37510,10,RUMANΙA|" +
-            "58209,11,HUNGRÍA|74944,12,ESLOVAQUIA|59230,13,REPÚBLICA CHECA|78164,14,AUSTRIA|06286,15,LIECHTENSTEIN|" +
-            "20899,16,SUIZA|86280,17,ITALIA|34825,18,SAN MARINO|34211,19,VATICANO|70679,20,MALTA|" +
-            "82148,21,MÓNACO|08651,22,FRANCIA|32823,23,ANDORRA|06647,24,ESPAÑA|09384,25,PORTUGAL|" +
-            "46095,26,IRLANDA|50582,27,REINO UNIDO|23172,28,ISLANDIA|53594,29,BÉLGICA|08128,30,LUXEMBURGO|" +
-            "48111,31,PAÍSES BAJOS|74502,32,ALEMANΙA|84102,33,DINAMARCA|70193,34,POLONΙA|85211,35,SUECIA|" +
-            "05559,36,NORUEGA|64462,37,FINLANDIA|29489,38,ESTONΙA|54930,39,LETONΙA|38196,40,LITUANIA|" +
-            "44288,41,BIELORRUSIA|10975,42,UCRANIA|66593,43,MOLDAVIA|34461,44,RUSIA|28475,45,TRINIDAD Y TOBAGO|" +
-            "64823,46,GRANADA|37867,47,SAN VICENTE Y LAS GRANADINAS|83165,48,BARBADOS|27120,49,SANTA LUCÍA|19091,50,DOMINICA|" +
-            "45648,51,ANTIGUA Y BARBUDA|56692,52,ST. KITTS Y NEVIS|34603,53,REPÚBLICA DOMINICANA|48610,54,HAITÍ|45432,55,CUBA|" +
-            "66482,56,JAMAICA|13393,57,BAHAMAS|60726,58,CANADÁ|02491,59,ESTADOS UNIDOS|41273,60,MÉXICO|" +
-            "72458,61,GUATEMALA|70066,62,BELICE|06315,63,EL SALVADOR|58817,64,HONDURAS|48815,65,NICARAGUA|" +
-            "20920,66,COSTA RICA|96282,67,PANAMÁ|92540,68,COLOMBIA|91715,69,VENEZUELA|36436,70,GUYANA|" +
-            "78925,71,SURINAM|90360,72,ECUADOR|01133,73,PERÚ|05305,74,BRASIL|48820,75,BOLIVIA|" +
-            "46652,76,PARAGUAY|13841,77,URUGUAY|46951,78,ARGENTINA|94151,79,CHILE|16094,80,SENEGAL|" +
-            "33057,81,GAMBIA|27036,82,GUINEA BISSAU|57595,83,GUINEA|91953,84,SIERRA LEONA|09218,85,LIBERIA|" +
-            "61173,86,COSTA DE MARFIL|81932,87,BURKINA FASO|61179,88,GHANA|31051,89,TOGO|18548,90,BENIN|" +
-            "07446,91,NIGERIA|23799,92,CAMERÚN|62749,93,REPÚBLICA CENTROAFRICANA|56735,94,R. D. CONGO|18857,95,CONGO|" +
-            "52724,96,GABÓN|89122,97,GUINEA ECUATORIAL|79381,98,SANTO TOMÉ Y PRÍNCIPE|83011,99,ANGOLA|94912,100,NAMIBIA|" +
-            "98336,101,BOTSUANA|73362,102,SUDÁFRICA|44065,103,LESOTHO|66430,104,ESUATINI|86021,105,MOZAMBIQUE|" +
-            "39494,106,MADAGASCAR|63952,107,MAURICIO|24737,108,SEYCHELLES|19070,109,COMORAS|21798,110,ZIMBABUE|" +
-            "60943,111,ZAMBIA|70277,112,MALAUI|05392,113,TANZANIA|17176,114,BURUNDI|29317,115,RUANDA|" +
-            "67523,116,UGANDA|84674,117,ΚΕΝΙΑ|81846,118,SOMALIA|76694,119,YIBUTI|05132,120,ERITREA|" +
-            "00056,121,ΕΤΙΟΡÍΑ|81271,122,SUDÁN DEL SUR|45263,123,SUDÁN|56082,124,CHAD|77857,125,NÍGER|" +
-            "71342,126,MALÍ|75778,127,MAURITANIA|96091,128,CABO VERDE|73637,129,MARRUECOS|17872,130,ARGELIA|" +
-            "14684,131,TÚNEZ|40901,132,LIBIA|22495,133,EGIPTO|34301,134,YEMEN|46549,135,OMÁN|" +
-            "58537,136,EMIRATOS ÁRABES UNIDOS|10507,137,QATAR|92279,138,BARÉIN|68925,139,ARABIA SAUDITA|89235,140,KUWAIT|" +
-            "42019,141,ISRAEL|95611,142,JORDANIA|21290,143,LÍBANO|21960,144,CHIPRE|86403,145,SIRIA|" +
-            "44181,146,IRAK|59813,147,TURQUÍA|62977,148,GEORGIA|47713,149,AZERBAIYÁN|09960,150,ARMENIA|" +
-            "51870,151,IRÁN|72113,152,TURKMENISTÁN|49999,153,UZBEKISTÁN|99837,154,KAZAJISTÁN|29780,155,KIRGUISTÁN|" +
-            "49951,156,TAYIKISTÁN|05973,157,AFGANISTÁN|17328,158,PAKISTÁN|16096,159,INDIA|31859,160,SRI LANKA|" +
-            "50244,161,MALDIVAS|59455,162,NEPAL|34690,163,BUTÁN|83026,164,BANGLADESH|42522,165,MYANMAR|" +
-            "30825,166,TAILANDIA|33446,167,MALASIA|85035,168,SINGAPUR|26193,169,INDONESIA|11881,170,TIMOR ORIENTAL|" +
-            "71010,171,BRUNÉI|00313,172,FILIPINAS|78387,173,VIETNAM|52886,174,CAMBOYA|58753,175,LAOS|" +
-            "32083,176,CHINA|81420,177,MONGOLIA|61717,178,COREA DEL NORTE|76691,179,COREA DEL SUR|47303,180,JAPÓN|" +
-            "59825,181,PALAOS|34904,182,MICRONESIA|28755,183,ISLAS MARSHALL|46873,184,NAURU|11595,185,KIRIBATI|" +
-            "62863,186,SAMOA|88235,187,TUVALU|37875,188,TONGA|93751,189,FIYI|95778,190,VANUATU|" +
-            "18577,191,ISLAS SALOMÓN|80532,192,PAPÚA NUEVA GUINEA|17122,193,AUSTRALIA|68066,194,NUEVA ZELANDA|13001,195,HONG KONG (CN)|" +
-            "92787,196,PALESTINA|66111,197,PUERTO RICO (EEUU)|95909,198,KOSOVO|21642,199,MACAO (CN)|01989,200,REPÚBLICA SAHARAUI|" +
-            "38095,201,CHIPRE DEL NORTE|25720,202,TRANSNISTRIA|10654,203,POLINESIA FRANCESA (FR)|85863,204,NUEVA CALEDONIA (FR)|27886,205,ABJASIA|" +
-            "59361,206,GUAM (EEUU)|53381,207,CURAZAO (PB)|82796,208,ARUBA (PB)|82303,209,JERSEY (UK)|01952,210,ISLAS VÍRGENES DE LOS EE.UU.|" +
-            "03530,211,ISLA DE MAN (UK)|18529,212,ISLAS CAIMÁN (UK)|68995,213,GUERNSEY (UK)|77362,214,BERMUDAS (UK)|25994,215,GROENLANDIA (DK)|" +
-            "13891,216,OSETIA DEL SUR|24972,217,ISLAS FEROE (DK)|17752,218,SAMOA AMERICANA (EEUU)|83479,219,ISLAS MARIANAS DEL NORTE (EEUU)|13151,220,ISLAS TURCAS Y CAICOS (UK)|" +
-            "55748,221,SINT MAARTEN (PB)|57242,222,GIBRALTAR (UK)|45415,223,SAN MARTÍN (FR)|06959,224,ISLAS VÍRGENES BRITÁNICAS (UK)|50829,225,ALAND (FI)|" +
-            "53311,226,ANGUILA (UK)|68617,227,ISLAS COOK|27855,228,WALLIS Y FUTUNA (FR)|88907,229,SAN BARTOLOMÉ (FR)|50983,230,SAN PEDRO Y MIQUELÓN (FR)|" +
-            "81754,231,SANTA ELENA|63746,232,ISLA DE LA ASCENSIÓN|49393,233,TRISTÁN DE ACUÑA|19255,234,MONTSERRAT (UK)|06040,235,ISLAS MALVINAS (UK)|" +
-            "09277,236,ISLA NORFOLK (AU)|01671,237,ISLA DE NAVIDAD (AU)|13900,238,NIUE (NZ)|98488,239,TOKELAU (NZ)|24012,240,ISLAS COCOS (KEELING) (AU)|" +
-            "85836,241,ISLAS PITCAIRN (UK)|16035,242,SOMALILANDIA|63707,243,BONAIRE (NL)|66010,244,SINT EUSTATIUS (NL)|47101,245,SABA (NL)|" +
-            "81942,246,REUNIÓN (FR)|95559,247,GUADALUPE (FR)|61989,248,MARTINICA (FR)|46767,249,MAYOTTE (FR)|83744,250,GUAYANA FRANCESA (FR)|" +
-            "94482,251,ISLAS GEORGIAS DEL SUR Y SANDWICH DEL SUR (UK)|55379,252,ISLA DE PASCUA (CL)|77472,253,TERRITORIO BRITÁNICO DEL OCÉANO ÍNDICO (UK)";
+        const rawData = `14159,1,ESLOVENIA|26535,2,CROACIA|89793,3,BOSNIA Y HERZEGOVINA|23846,4,MONTENEGRO|26433,5,ALBANIA|83279,6,MACEDONIA DEL NORTE|50288,7,SERBIA|41971,8,BULGARIA|69399,9,GRECIA|37510,10,RUMAΝΙΑ|58209,11,HUNGRÍA|74944,12,ESLOVAQUIA|59230,13,REPÚBLICA CHECA|78164,14,AUSTRIA|06286,15,LIECHTENSTEIN|20899,16,SUIZA|86280,17,ITALIA|34825,18,SAN MARINO|34211,19,VATICANO|70679,20,MALTA|82148,21,MÓNACO|08651,22,FRANCIA|32823,23,ANDORRA|06647,24,ESPAÑA|09384,25,PORTUGAL|46095,26,IRLANDA|50582,27,REINO UNIDO|23172,28,ISLANDIA|53594,29,BÉLGICA|08128,30,LUXEMBURGO|48111,31,PAÍSES BAJOS|74502,32,ALEMΑΝΙΑ|84102,33,DINAMARCA|70193,34,POLOΝΙΑ|85211,35,SUECIA|05559,36,NORUEGA|64462,37,FINLANDIA|29489,38,ESTOΝΙΑ|54930,39,LETOΝΙΑ|38196,40,LITUANIA|44288,41,BIELORRUSIA|10975,42,UCRANIA|66593,43,MOLDAVIA|34461,44,RUSIA|28475,45,TRINIDAD Y TOBAGO|64823,46,GRANADA|37867,47,SAN VICENTE Y LAS GRANADINAS|83165,48,BARBADOS|27120,49,SANTA LUCÍA|19091,50,DOMINICA|45648,51,ANTIGUA Y BARBUDA|56692,52,ST. KITTS Y NEVIS|34603,53,REPÚBLICA DOMINICANA|48610,54,HAITÍ|45432,55,CUBA|66482,56,JAMAICA|13393,57,BAHAMAS|60726,58,CANADÁ|02491,59,ESTADOS UNIDOS|41273,60,MÉXICO|72458,61,GUATEMALA|70066,62,BELICE|06315,63,EL SALVADOR|58817,64,HONDURAS|48815,65,NICARAGUA|20920,66,COSTA RICA|96282,67,PANAMÁ|92540,68,COLOMBIA|91715,69,VENEZUELA|36436,70,GUYANA|78925,71,SURINAM|90360,72,ECUADOR|01133,73,PERÚ|05305,74,BRASIL|48820,75,BOLIVIA|46652,76,PARAGUAY|13841,77,URUGUAY|46951,78,ARGENTINA|94151,79,CHILE|16094,80,SENEGAL|33057,81,GAMBIA|27036,82,GUINEA BISSAU|57595,83,GUINEA|91953,84,SIERRA LEONA|09218,85,LIBERIA|61173,86,COSTA DE MARFIL|81932,87,BURKINA FASO|61179,88,GHANA|31051,89,TOGO|18548,90,BENIN|07446,91,NIGERIA|23799,92,CAMERÚN|62749,93,REPÚBLICA CENTROAFRICANA|56735,94,R. D. CONGO|18857,95,CONGO|52724,96,GABÓN|89122,97,GUINEA ECUATORIAL|79381,98,SANTO TOMÉ Y PRÍNCIPE|83011,99,ANGOLA|94912,100,NAMIBIA|98336,101,BOTSUANA|73362,102,SUDÁFRICA|44065,103,LESOTHO|66430,104,ESUATINI|86021,105,MOZAMBIQUE|39494,106,MADAGASCAR|63952,107,MAURICIO|24737,108,SEYCHELLES|19070,109,COMORAS|21798,110,ZIMBABUE|60943,111,ZAMBIA|70277,112,MALAUI|05392,113,TANZANIA|17176,114,BURUNDI|29317,115,RUANDA|67523,116,UGANDA|84674,117,ΚΕΝΙΑ|81846,118,SOMALIA|76694,119,YIBUTI|05132,120,ERITREA|00056,121,ΕΤΙΟΡÍΑ|81271,122,SUDÁN DEL SUR|45263,123,SUDÁN|56082,124,CHAD|77857,125,NÍGER|71342,126,MALÍ|75778,127,MAURITANIA|96091,128,CABO VERDE|73637,129,MARRUECOS|17872,130,ARGELIA|14684,131,TÚNEZ|40901,132,LIBIA|22495,133,EGIPTO|34301,134,YEMEN|46549,135,OMÁN|58537,136,EMIRATOS ÁRABES UNIDOS|10507,137,QATAR|92279,138,BARÉIN|68925,139,ARABIA SAUDITA|89235,140,KUWAIT|42019,141,ISRAEL|95611,142,JORDANIA|21290,143,LÍBANO|21960,144,CHIPRE|86403,145,SIRIA|44181,146,IRAK|59813,147,TURQUÍA|62977,148,GEORGIA|47713,149,AZERBAIYÁN|09960,150,ARMENIA|51870,151,IRÁN|72113,152,TURKMENISTÁN|49999,153,UZBEKISTÁN|99837,154,KAZAJISTÁN|29780,155,KIRGUISTÁN|49951,156,TAYIKISTÁN|05973,157,AFGANISTÁN|17328,158,PAKISTÁN|16096,159,INDIA|31859,160,SRI LANKA|50244,161,MALDIVAS|59455,162,ΝΕΡAL|34690,163,BUTÁN|83026,164,BANGLADESH|42522,165,MYANMAR|30825,166,TAILANDIA|33446,167,MALASIA|85035,168,SINGAPUR|26193,169,INDONESIA|11881,170,TIMOR ORIENTAL|71010,171,BRUNÉI|00313,172,FILIPINAS|78387,173,VIETNAM|52886,174,CAMBOYA|58753,175,LAOS|32083,176,CHINA|81420,177,MONGOLIA|61717,178,COREA DEL NORTE|76691,179,COREA DEL SUR|47303,180,JAPÓN|59825,181,PALAOS|34904,182,MICRONESIA|28755,183,ISLAS MARSHALL|46873,184,NAURU|11595,185,KIRIBATI|62863,186,SAMOA|88235,187,TUVALU|37875,188,ΤΟNGA|93751,189,FIYI|95778,190,VANUATU|18577,191,ISLAS SALOMÓN|80532,192,PAPÚA NUEVA GUINEA|17122,193,AUSTRALIA|68066,194,NUEVA ZELANDA|13001,195,HONG KONG (CN)|92787,196,PALESTINA|66111,197,PUERTO RICO (EEUU)|95909,198,KOSOVO|21642,199,MACAO (CN)|01989,200,REPÚBLICA SAHARAUI|38095,201,CHIPRE DEL NORTE|25720,202,TRANSNISTRIA|10654,203,POLINESIA FRANCESA (FR)|85863,204,NUEVA CALEDONIA (FR)|27886,205,ABJASIA|59361,206,GUAM (EEUU)|53381,207,CURAZAO (PB)|82796,208,ARUBA (PB)|82303,209,JERSEY (UK)|01952,210,ISLAS VÍRGENES DE LOS EE.UU.|03530,211,ISLA DE MAN (UK)|18529,212,ISLAS CAIMÁN (UK)|68995,213,GUERNSEY (UK)|77362,214,BERMUDAS (UK)|25994,215,GROENLANDIA (DK)|13891,216,OSETIA DEL SUR|24972,217,ISLAS FEROE (DK)|17752,218,SAMOA AMERICANA (EEUU)|83479,219,ISLAS MARIANAS DEL NORTE (EEUU)|13151,220,ISLAS TURCAS Y CAICOS (UK)|55748,221,SINT MAARTEN (PB)|57242,222,GIBRALTAR (UK)|45415,223,SAN MARTÍN (FR)|06959,224,ISLAS VÍRGENES BRITÁNICAS (UK)|50829,225,ALAND (FI)|53311,226,ANGUILA (UK)|68617,227,ISLAS COOK|27855,228,WALLIS Y FUTUNA (FR)|88907,229,SAN BARTOLOMÉ (FR)|50983,230,SAN PEDRO Y MIQUELÓN (FR)|81754,231,SANTA ELENA|63746,232,ISLA DE LA ASCENSIÓN|49393,233,TRISTÁN DE ACUÑA|19255,234,MONTSERRAT (UK)|06040,235,ISLAS MALVINAS (UK)|09277,236,ISLA NORFOLK (AU)|01671,237,ISLA DE NAVIDAD (AU)|13900,238,NIUE (NZ)|98488,239,TOKELAU (NZ)|24012,240,ISLAS COCOS (KEELING) (AU)|85836,241,ISLAS PITCAIRN (UK)|16035,242,SOMALILANDIA|63707,243,BONAIRE (NL)|66010,244,SINT EUSTATIUS (NL)|47101,245,SABA (NL)|81942,246,REUNIÓN (FR)|95559,247,GUADALUPE (FR)|61989,248,MARTINICA (FR)|46767,249,MAYOTTE (FR)|83744,250,GUAYANA FRANCESA (FR)|94482,251,ISLAS GEORGIAS DEL SUR Y SANDWICH DEL SUR (UK)|55379,252,ISLA DE PASCUA (CL)|77472,253,TERRITORIO BRITÁNICO DEL OCÉANO ÍNDICO (UK)`;
 
         const list = rawData.split('|').map(item => {
             const [digits, index, country] = item.split(',');
@@ -348,8 +275,6 @@
 
         let currentIndex = parseInt(localStorage.getItem('pi_last_index')) || 0;
         let currentStep = parseInt(localStorage.getItem('pi_step_size')) || 10;
-
-        if (![5, 10, 20].includes(currentStep)) currentStep = 10;
 
         function updateUI() {
             localStorage.setItem('pi_last_index', currentIndex);
@@ -413,14 +338,7 @@
         }
 
         function toggleStepSize() {
-            if (currentStep === 5) {
-                currentStep = 10;
-            } else if (currentStep === 10) {
-                currentStep = 20;
-            } else {
-                currentStep = 5;
-            }
-
+            currentStep = (currentStep === 10) ? 5 : 10;
             localStorage.setItem('pi_step_size', currentStep);
             updateStepUI();
         }
@@ -432,12 +350,12 @@
         }
 
         function toggleTheme() {
-            const htmlElement = document.documentElement;
-            htmlElement.classList.toggle('dark-mode');
-            const isDark = htmlElement.classList.contains('dark-mode');
+            const body = document.body;
+            body.classList.toggle('dark-mode');
+            const isDark = body.classList.contains('dark-mode');
 
             document.getElementById('theme-btn').innerText = isDark ? '☀️' : '🌙';
-            document.getElementById('theme-color-meta').setAttribute('content', isDark ? '#1e1e1e' : '#ffffff');
+            document.getElementById('theme-color-meta').setAttribute('content', isDark ? '#121212' : '#f0f0f0');
             localStorage.setItem('pi_theme', isDark ? 'dark' : 'light');
         }
 
@@ -447,10 +365,8 @@
             const isDark = savedTheme === 'dark' || (!savedTheme && systemPrefersDark);
 
             if (isDark) {
-                document.documentElement.classList.add('dark-mode');
-                document.getElementById('theme-color-meta').setAttribute('content', '#1e1e1e');
-            } else {
-                document.getElementById('theme-color-meta').setAttribute('content', '#ffffff');
+                document.body.classList.add('dark-mode');
+                document.getElementById('theme-color-meta').setAttribute('content', '#121212');
             }
 
             document.getElementById('theme-btn').innerText = isDark ? '☀️' : '🌙';
@@ -461,23 +377,10 @@
             updateStepUI();
             updateUI();
             if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('./sw.js')
-                    .then(reg => {
-                        navigator.serviceWorker.addEventListener('message', e => {
-                            const version = e.data.split('-').pop(); // extrae "v10"
-                            document.getElementById('version-label').textContent = version;
-                        });
-                        // Pide la versión cuando el SW esté listo
-                        navigator.serviceWorker.ready.then(sw => {
-                            sw.active.postMessage('GET_VERSION');
-                        });
-                    })
-                    .catch(() => { });
+                navigator.serviceWorker.register('./sw.js').catch(() => { });
             }
         };
     </script>
-    <div id="version-label"></div>
-
 </body>
 
 </html>
