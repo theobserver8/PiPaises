@@ -3,10 +3,10 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Repaso Pi Países</title>
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#f0f0f0" id="theme-color-meta">
+    <meta name="theme-color" content="#ffffff" id="theme-color-meta">
     <style>
         :root {
             --bg-color: #f4f4f9;
@@ -32,6 +32,11 @@
             box-sizing: border-box;
         }
 
+        html {
+            background-color: var(--card-bg);
+            height: 100%;
+        }
+
         body {
             margin: 0;
             padding: 0;
@@ -42,7 +47,7 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            height: 100vh;
+            min-height: 100dvh;
         }
 
         .header {
@@ -425,7 +430,7 @@
             const isDark = body.classList.contains('dark-mode');
 
             document.getElementById('theme-btn').innerText = isDark ? '☀️' : '🌙';
-            document.getElementById('theme-color-meta').setAttribute('content', isDark ? '#121212' : '#f0f0f0');
+            document.getElementById('theme-color-meta').setAttribute('content', isDark ? '#1e1e1e' : '#ffffff');
             localStorage.setItem('pi_theme', isDark ? 'dark' : 'light');
         }
 
@@ -436,7 +441,9 @@
 
             if (isDark) {
                 document.body.classList.add('dark-mode');
-                document.getElementById('theme-color-meta').setAttribute('content', '#121212');
+                document.getElementById('theme-color-meta').setAttribute('content', '#1e1e1e');
+            } else {
+                document.getElementById('theme-color-meta').setAttribute('content', '#ffffff');
             }
 
             document.getElementById('theme-btn').innerText = isDark ? '☀️' : '🌙';
@@ -447,7 +454,18 @@
             updateStepUI();
             updateUI();
             if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('./sw.js').catch(() => { });
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => {
+                        navigator.serviceWorker.addEventListener('message', e => {
+                            const version = e.data.split('-').pop(); // extrae "v10"
+                            document.getElementById('version-label').textContent = version;
+                        });
+                        // Pide la versión cuando el SW esté listo
+                        navigator.serviceWorker.ready.then(sw => {
+                            sw.active.postMessage('GET_VERSION');
+                        });
+                    })
+                    .catch(() => { });
             }
         };
     </script>
