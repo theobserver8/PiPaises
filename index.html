@@ -6,8 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Repaso Pi Países</title>
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#f4f4f9" id="theme-color-meta">
-
+    <meta name="theme-color" content="#ffffff" id="theme-color-meta">
     <style>
         :root {
             --bg-color: #f4f4f9;
@@ -16,18 +15,16 @@
             --card-shadow: rgba(0, 0, 0, 0.1);
             --accent: #007bff;
             --btn-bg: #e0e0e0;
-            --btn-text: #333;
             --pi-color: #333333;
         }
 
-        html.dark-mode {
+        body.dark-mode {
             --bg-color: #121212;
             --text-color: #e0e0e0;
             --card-bg: #1e1e1e;
             --card-shadow: rgba(0, 0, 0, 0.5);
             --accent: #4da3ff;
             --btn-bg: #333333;
-            --btn-text: #e0e0e0;
             --pi-color: #ffe082;
         }
 
@@ -37,8 +34,6 @@
 
         html {
             background-color: var(--card-bg);
-            transition: background-color 0.3s;
-            overscroll-behavior: none;
             height: 100%;
         }
 
@@ -46,19 +41,17 @@
             margin: 0;
             padding: 0;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
             color: var(--text-color);
             transition: background-color 0.3s, color 0.3s;
             overflow: hidden;
-            overscroll-behavior: none;
             display: flex;
             flex-direction: column;
-            height: 100%;
             min-height: 100dvh;
         }
 
         .header {
             padding: 10px 12px;
-            padding-top: calc(10px + env(safe-area-inset-top));
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -432,9 +425,9 @@
         }
 
         function toggleTheme() {
-            const htmlElement = document.documentElement;
-            htmlElement.classList.toggle('dark-mode');
-            const isDark = htmlElement.classList.contains('dark-mode');
+            const body = document.body;
+            body.classList.toggle('dark-mode');
+            const isDark = body.classList.contains('dark-mode');
 
             document.getElementById('theme-btn').innerText = isDark ? '☀️' : '🌙';
             document.getElementById('theme-color-meta').setAttribute('content', isDark ? '#1e1e1e' : '#ffffff');
@@ -447,7 +440,7 @@
             const isDark = savedTheme === 'dark' || (!savedTheme && systemPrefersDark);
 
             if (isDark) {
-                document.documentElement.classList.add('dark-mode');
+                document.body.classList.add('dark-mode');
                 document.getElementById('theme-color-meta').setAttribute('content', '#1e1e1e');
             } else {
                 document.getElementById('theme-color-meta').setAttribute('content', '#ffffff');
@@ -477,7 +470,6 @@
         };
     </script>
     <div id="version-label"></div>
-
 </body>
 
 </html>
