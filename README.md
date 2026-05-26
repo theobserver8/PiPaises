@@ -1,5 +1,5 @@
 # PiPaises
-App para memorizar los países y Pi
+App para memorizar los países y el número Pi
 
 ## Versiones
 
